@@ -36,7 +36,7 @@ var todo=angular.module('todo', ['ionic'])
 
    // Called to create a new project
    $scope.newProject = function() {
-     var projectTitle = prompt('Project name');
+     var projectTitle = prompt('项目名称');
      if(projectTitle) {
        createProject(projectTitle);
      }
@@ -60,7 +60,7 @@ var todo=angular.module('todo', ['ionic'])
    $timeout(function() {
      if($scope.projects.length == 0) {
        while(true) {
-         var projectTitle = prompt('Your first project title:');
+         var projectTitle = prompt('创建第一个项目:');
          if(projectTitle) {
            createProject(projectTitle);
            break;
