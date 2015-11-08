@@ -3,10 +3,10 @@
   <name>TODO</name>
   <description>
         An Ionic Framework and Cordova project.
-    </description>
+  </description>
   <author email="homeemail@qq.com" href="http://www.ivanme.com/">
       Ionic Framework Team
-    </author>
+  </author>
   <content src="index.html"/>
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
