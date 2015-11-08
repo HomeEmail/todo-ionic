@@ -2,22 +2,40 @@
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-var todo=angular.module('todo', ['ionic'])
+// the 2nd parameter is an array of 'requires'//
+var todo=angular.module('todo', ['ionic','ngCordova'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform,$cordovaStatusbar) {//
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
-    if(window.StatusBar) {
-      StatusBar.styleDefault();
-    }
+    //if(window.StatusBar) {
+    //  StatusBar.styleDefault();
+    //}
+    $cordovaStatusbar.overlaysWebView(true)
+
+    //$cordovaStatusBar.style(1) //Light
+    $cordovaStatusBar.style(2) //Black, transulcent
+    //$cordovaStatusBar.style(3) //Black, opaque
+
   });
 });
- todo .controller('TodoCtrl',['$scope','$ionicModal','$timeout','Projects','$ionicSideMenuDelegate',function($scope,$ionicModal,$timeout,Projects,$ionicSideMenuDelegate){
+
+/**cordova插件应该在ready里用*/
+//document.addEventListener("deviceready", function () {
+// // $cordovaPlugin.someFunction().then(success, error);
+//}, false);
+
+// OR with IONIC
+
+//$ionicPlatform.ready(function() {
+ // $cordovaPlugin.someFunction().then(success, error);
+//});
+
+ todo .controller('TodoCtrl',['$scope','$ionicModal','$timeout','Projects','$ionicSideMenuDelegate','$cordovaDialogs',function($scope,$ionicModal,$timeout,Projects,$ionicSideMenuDelegate,$cordovaDialogs){
 
    // A utility function for creating a new project
    // with the given projectTitle
@@ -36,10 +54,20 @@ var todo=angular.module('todo', ['ionic'])
 
    // Called to create a new project
    $scope.newProject = function() {
-     var projectTitle = prompt('项目名称');
-     if(projectTitle) {
-       createProject(projectTitle);
-     }
+     //var projectTitle = prompt('项目名称');
+     var  projectTitle='';
+     $cordovaDialogs.prompt('请输入你的项目名称', '项目名称', ['取消','确定'])
+     .then(function(result) {
+       var input = result.input1;
+       // no button = 0, 'OK' = 1, 'Cancel' = 2
+       var btnIndex = result.buttonIndex;
+         if(btnIndex==2){
+           projectTitle=input;
+           if(projectTitle) {
+             createProject(projectTitle);
+           }
+         }
+     });
    };
 
    // Called to select the given project
