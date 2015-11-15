@@ -88,11 +88,20 @@ var todo=angular.module('todo', ['ionic','ngCordova'])
    $timeout(function() {
      if($scope.projects.length == 0) {
        while(true) {
-         var projectTitle = prompt('创建第一个项目:');
-         if(projectTitle) {
-           createProject(projectTitle);
-           break;
-         }
+         var projectTitle = '';
+         $cordovaDialogs.prompt('创建第一个项目', '项目名称', ['取消','确定'])
+           .then(function(result) {
+             var inputText = result.input1;
+             // no button = 0, 'OK' = 1, 'Cancel' = 2
+             var btnIndex = result.buttonIndex;
+             if(btnIndex==2){
+               projectTitle=inputText;
+               if(projectTitle) {
+                 createProject(projectTitle);
+               }
+             }
+           });
+
        }
      }
    });
